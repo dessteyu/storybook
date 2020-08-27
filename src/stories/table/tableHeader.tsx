@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import { TableTheme } from "./tableTheme";
 import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
+import "styled-components";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -57,6 +58,16 @@ const StyledTableCell = withStyles((theme: Theme) =>
     },
   })
 )(TableCell);
+
+const TableHeadStyled = withStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      "& .MuiTableCell-root": {
+        padding: 0,
+      },
+    },
+  })
+)(TableHead);
 export function TableHeader<T extends any>({
   columns,
   hasSelection,
@@ -76,11 +87,16 @@ export function TableHeader<T extends any>({
   };
   return (
     <>
-      <TableHead>
+      <TableHeadStyled>
         <TableRow>
           {hasSelection && (
             <StyledTableCell align="right" padding="checkbox">
               <Checkbox
+                css={`
+                  "& .PrivateSwitchBase-root-12" {
+                    padding: 0;
+                  }
+                `}
                 onChange={onAllRowChecked}
                 indeterminate={
                   selectedRowsCount > 0 && selectedRowsCount < rowCount
@@ -113,7 +129,7 @@ export function TableHeader<T extends any>({
             </StyledTableCell>
           )}
         </TableRow>
-      </TableHead>
+      </TableHeadStyled>
     </>
   );
 }

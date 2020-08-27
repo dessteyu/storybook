@@ -1,11 +1,12 @@
 import React from "react";
 import "./table.css";
 import { CustomTableRow } from "./customRow";
-import { Table, TableBody, TableContainer, Paper } from "@material-ui/core";
+import { Table, TableBody, TableContainer } from "@material-ui/core";
 import { TableHeader } from "./tableHeader";
 import { TableLoader } from "./tableLoader";
 import { CustomTableFooter } from "./tableFooter";
 import { Theme, makeStyles, createStyles } from "@material-ui/core/styles";
+import "styled-components";
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -13,21 +14,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     paper: {
       width: "100%",
-      marginBottom: theme.spacing(2),
+      marginBottom: theme.spacing(1),
     },
     table: {
-      minWidth: 750,
-    },
-    visuallyHidden: {
-      border: 0,
-      clip: "rect(0 0 0 0)",
-      height: 1,
-      margin: -1,
-      overflow: "hidden",
-      padding: 0,
-      position: "absolute",
-      top: 20,
-      width: 1,
+      minWidth: 600,
     },
   })
 );
@@ -93,6 +83,7 @@ export interface TableProps<RowData extends any> {
   hasSelection?: boolean;
   asAction?: boolean;
   orderByIdentifier?: keyof RowData;
+  rowsPerPageOptions?: number[];
 }
 
 export function CustomTable<RowData extends any>({
@@ -109,6 +100,7 @@ export function CustomTable<RowData extends any>({
   onAllRowChecked,
   onRowChecked,
   orderByIdentifier = rowsIdentifier as keyof RowData,
+  rowsPerPageOptions,
 }: TableProps<RowData>) {
   // selected
   const styles = useStyles();
@@ -202,7 +194,12 @@ export function CustomTable<RowData extends any>({
   }, [tableData, order, orderBy, page, rowsPerPage]);
 
   return (
-    <TableContainer component={Paper} className={styles.paper}>
+    <TableContainer
+      className={styles.paper}
+      css={`
+        overflow-y: hidden;
+      `}
+    >
       <Table
         size="medium"
         aria-label="customized table"
@@ -245,7 +242,7 @@ export function CustomTable<RowData extends any>({
         )}
       </Table>
       <CustomTableFooter
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={rowsPerPageOptions}
         handleChangePage={handleChangePage}
         count={tableData?.length}
         handleChangeRowsPerPage={handleChangeRowsPerPage}

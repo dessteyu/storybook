@@ -2,14 +2,10 @@ import React from "react";
 import { TableRow, TableCell, Checkbox, IconButton } from "@material-ui/core";
 import EditOutlinedIcon from "@material-ui/icons/EditOutlined";
 import DeleteOutlinedIcon from "@material-ui/icons/DeleteOutlined";
-import {
-  withStyles,
-  Theme,
-  createStyles,
-  makeStyles,
-} from "@material-ui/core/styles";
+import { withStyles, Theme, createStyles } from "@material-ui/core/styles";
 import { Column } from "./table";
 import { TableTheme } from "./tableTheme";
+import "styled-components";
 
 export interface CustomRowProps<RowData extends any> {
   columns: Column<RowData>[];
@@ -44,29 +40,20 @@ const StyledTableCell = withStyles((theme: Theme) =>
   })
 )(TableCell);
 
-const StyledTableRow = withStyles((theme: Theme) =>
+export const StyledTableRow = withStyles((theme: Theme) =>
   createStyles({
     root: {
       "&:nth-of-type(odd)": {
         backgroundColor: TableTheme.oldRowColors,
       },
       cursor: "pointer",
-      "> td:first-child": {
-        // paddingLeft: 16,
-      },
-
-      "> td:last-child": {
-        // paddingRight: 24,
+      "& .MuiTableCell-root": {
+        padding: 0,
       },
     },
   })
 )(TableRow);
 
-const useStyles = makeStyles({
-  table: {
-    minWidth: 700,
-  },
-});
 function FormattedTableCell<T extends any>({
   column,
   currentCell,
@@ -97,7 +84,6 @@ export const CustomTableRow = <T extends any>({
   asAction,
   handleRowSelectClick,
 }: CustomRowProps<T>) => {
-  const styles = useStyles();
   const rowId = rowContent[rowsIdentifier];
   const isSelected = isRowSelected(rowId);
   return (
@@ -112,6 +98,11 @@ export const CustomTableRow = <T extends any>({
         {hasSelection && (
           <StyledTableCell align="right" padding="checkbox">
             <Checkbox
+              css={`
+                "& .PrivateSwitchBase-root-12" {
+                  padding: 0;
+                }
+              `}
               checked={isSelected || rowContent === selectRowsCount}
               onClick={(event) => {
                 event.stopPropagation();
