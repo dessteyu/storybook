@@ -2,7 +2,7 @@ import React from "react";
 import { Story, Meta } from "@storybook/react/types-6-0";
 import { CustomTable, TableProps, Column } from "./table";
 export default {
-  title: "Paps/CustomTable",
+  title: "Dessteyu/CustomTable",
   component: CustomTable,
   argTypes: {},
 } as Meta;
